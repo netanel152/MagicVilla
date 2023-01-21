@@ -2,7 +2,7 @@
 
 namespace MagicVilla_VillaAPI.Data
 {
-    public static class VillaStore
+    public static class MockDataVillas
     {
         public static List<VillaDTO> villaList = new List<VillaDTO>
         {
