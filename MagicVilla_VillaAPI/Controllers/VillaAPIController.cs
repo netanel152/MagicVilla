@@ -157,7 +157,7 @@ namespace MagicVilla_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut("id:int", Name = "UpdateVilla")]
-        public async Task<ActionResult<APIResponse>> UpdateVilla(int id, VillaUpdateDTO updateDTO)
+        public async Task<ActionResult<APIResponse>> UpdateVilla(int id,[FromBody] VillaUpdateDTO updateDTO)
         {
             try
             {
@@ -165,8 +165,10 @@ namespace MagicVilla_VillaAPI.Controllers
                 {
                     return BadRequest();
                 }
-                Villa villaModel = _mapper.Map<Villa>(updateDTO);
-                await _dbVilla.UpdateAsync(villaModel);
+
+                Villa model = _mapper.Map<Villa>(updateDTO);
+
+                await _dbVilla.UpdateAsync(model);
                 _response.StatusCode = HttpStatusCode.NoContent;
                 _response.IsSuccess = true;
                 return Ok(_response);
@@ -174,7 +176,8 @@ namespace MagicVilla_VillaAPI.Controllers
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMessages = new List<string> { ex.Message };
+                _response.ErrorMessages
+                     = new List<string>() { ex.ToString() };
             }
             return _response;
         }

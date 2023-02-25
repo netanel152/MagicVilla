@@ -17,7 +17,7 @@ namespace MagicVilla_Web.Services
 
         public Task<T> CreateAsync<T>(VillaCreateDTO dto)
         {
-            return SendAsync<T>(new APIRequest() 
+            return SendAsync<T>(new APIRequest()
             {
                 ApiType = SD.ApiType.POST,
                 Data = dto,
@@ -43,12 +43,12 @@ namespace MagicVilla_Web.Services
             });
         }
 
-        public Task<T> GetAsync<T>()
+        public Task<T> GetAsync<T>(int id)
         {
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = SD.ApiType.GET,
-                Url = villaUrl + "/api/VillaAPI"
+                Url = villaUrl + "/api/VillaAPI/" + id
             });
         }
 
