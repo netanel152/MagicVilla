@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MagicVillaVillaAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230225135412_ChangeNullAbleToFalse")]
+    [Migration("20230310105656_ChangeNullAbleToFalse")]
     partial class ChangeNullAbleToFalse
     {
         /// <inheritdoc />

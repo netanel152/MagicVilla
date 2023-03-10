@@ -5,7 +5,7 @@
 namespace MagicVillaVillaAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class ChangeNullAbleToFalse1 : Migration
+    public partial class ChangeNullAbleToFalse : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
