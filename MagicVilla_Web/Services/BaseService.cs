@@ -63,7 +63,7 @@ namespace MagicVilla_Web.Services
                         return returnObj;
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     var exceptionResponse = JsonConvert.DeserializeObject<T>(apiContent);
                     return exceptionResponse;
