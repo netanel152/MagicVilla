@@ -174,7 +174,7 @@ namespace MagicVilla_VillaAPI.Controllers
                 {
                     return BadRequest();
                 }
-                if (await _dbVilla.GetAsync(u => u.Id == updateDTO.VillaId) == null)
+                if (await _dbVilla.GetAsync(u => u.Id == updateDTO.VillaID) == null)
                 {
                     ModelState.AddModelError("ErrorMessages", "Villa ID is invalid!");
                     return BadRequest(ModelState);
