@@ -38,7 +38,7 @@ namespace MagicVilla_VillaAPI.Controllers
         {
             try
             {
-                var villaNumberListDB = await _dbVillaNumber.GetAllAsync();
+                var villaNumberListDB = await _dbVillaNumber.GetAllAsync(includeProperties: "Villa");
                 if (villaNumberListDB.Count == 0)
                 {
                     _response.StatusCode = HttpStatusCode.NotFound;
