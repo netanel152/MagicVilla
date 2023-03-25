@@ -21,7 +21,7 @@ namespace MagicVilla_Web.Services
             try
             {
                 var client = httpClient.CreateClient("MagicAPI");
-                HttpRequestMessage message = new HttpRequestMessage();
+                HttpRequestMessage message = new();
                 message.Headers.Add("Accept", "application/json");
                 message.RequestUri = new Uri(apiRequest.Url);
                 if (apiRequest.Data != null)
@@ -43,6 +43,11 @@ namespace MagicVilla_Web.Services
                     default:
                         message.Method = HttpMethod.Get;
                         break;
+                }
+
+                if (!string.IsNullOrEmpty(apiRequest.Token))
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiRequest.Token);
                 }
 
                 HttpResponseMessage apiResponse = null;
