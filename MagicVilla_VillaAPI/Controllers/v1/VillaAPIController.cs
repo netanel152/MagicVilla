@@ -5,6 +5,7 @@ using MagicVilla_VillaAPI.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System.Net;
 
 namespace MagicVilla_VillaAPI.Controllers.v1
@@ -25,21 +26,30 @@ namespace MagicVilla_VillaAPI.Controllers.v1
         }
 
         [HttpGet]
+        [ResponseCache(CacheProfileName = "Default30")]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<APIResponse>> GetVillas()
+        public async Task<ActionResult<APIResponse>> GetVillas([FromQuery(Name = "filterOccupancy")] int? occupancy, [FromQuery] string? search)
         {
             try
             {
-                //var villaList = MockDataVillas.villaList;
-                var villaListDB = await _dbVilla.GetAllAsync();
-                if (villaListDB.Count == 0)
+                IEnumerable<Villa> villaList;
+
+                if (occupancy > 0)
                 {
-                    _response.StatusCode = HttpStatusCode.NotFound;
-                    return NotFound(_response);
+                    villaList = await _dbVilla.GetAllAsync(v => v.Occupancy == occupancy);
                 }
-                _response.Result = _mapper.Map<List<VillaDTO>>(villaListDB);
+                else
+                {
+                    villaList = await _dbVilla.GetAllAsync();
+                }
+                if (!string.IsNullOrEmpty(search))
+                {
+                    villaList = villaList.Where(v => v.Name.ToLower().Contains(search));
+                }
+                //var villaList = MockDataVillas.villaList;
+                _response.Result = _mapper.Map<List<VillaDTO>>(villaList);
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
             }
@@ -58,6 +68,7 @@ namespace MagicVilla_VillaAPI.Controllers.v1
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpGet("{id:int}", Name = "GetVilla")]
         [Authorize(Roles = "admin")]
+        //[ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<ActionResult<APIResponse>> GetVilla(int id)
         {
 
