@@ -11,5 +11,7 @@
         }
 
         public static string SessionToken = "JWTToken";
+
+        public static string ApiVer = "v1";
     }
 }

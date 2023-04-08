@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-namespace MagicVilla_VillaAPI.Controllers
+namespace MagicVilla_VillaAPI.Controllers.v1
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/VillaNumberAPI")]
     [ApiController]
+    [ApiVersion("1.0")]
     public class VillaNumberAPIController : ControllerBase
     {
         protected APIResponse _response;
@@ -22,14 +23,14 @@ namespace MagicVilla_VillaAPI.Controllers
         {
             _dbVillaNumber = dbVillaNumber;
             _mapper = mapper;
-            this._response = new();
+            _response = new();
             _dbVilla = dbVilla;
         }
-
 
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<VillaNumberDTO>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[MapToApiVersion("1.0")]
         [HttpGet]
         public async Task<ActionResult<APIResponse>> GetVillasNumbers()
         {
@@ -161,7 +162,7 @@ namespace MagicVilla_VillaAPI.Controllers
         }
 
 
-        [HttpPut("id:int", Name = "UpdateVillaNumber")]
+        [HttpPut("id", Name = "UpdateVillaNumber")]
         [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

@@ -121,7 +121,7 @@ namespace MagicVilla_Web.Controllers
             if (ModelState.IsValid)
             {
 
-                var response = await _villaNumberService.UpdateAsync<APIResponse>(model.VillaNumber, await HttpContext.GetTokenAsync("access_token"));
+                var response = await _villaNumberService.UpdateAsync<APIResponse>(model.VillaNumber, HttpContext.Session.GetString(SD.SessionToken));
                 if (response != null && response.IsSuccess)
                 {
                     return RedirectToAction(nameof(IndexVillaNumber));
@@ -135,7 +135,7 @@ namespace MagicVilla_Web.Controllers
                 }
             }
 
-            var resp = await _villaService.GetAllAsync<APIResponse>(await HttpContext.GetTokenAsync("access_token"));
+            var resp = await _villaService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SessionToken));
             if (resp != null && resp.IsSuccess)
             {
                 model.VillaList = JsonConvert.DeserializeObject<List<VillaDTO>>
